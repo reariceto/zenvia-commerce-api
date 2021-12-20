@@ -1,12 +1,8 @@
 import mongoose from 'mongoose'
 
-export enum StorePlatform {
-  Nuvemshop = 'nuvemshop',
-}
-
 export interface Store {
   connectedAt: Date
-  platform: StorePlatform
+  platform: String
   storeId: string
   accessToken: string
   language: string
