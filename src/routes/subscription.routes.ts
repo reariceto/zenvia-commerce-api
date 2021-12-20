@@ -48,16 +48,16 @@ subscriptionRouter.get('/', async (req, res) => {
 })
 
 //GET by storeId/productId/variantId
-subscriptionRouter.get('/store/:storeId/product/:productId/variant/:variantId', async (req, res) => {
+subscriptionRouter.get('/store/:storeId/product/:productId/variant/:variantId/phones', async (req, res) => {
     const storeId = req.params.storeId
     const productId = req.params.productId
     const variantId = req.params.variantId
 
     try{
-        const subscriptions = await SubscriptionModel.find({store: storeId, productId: productId, variantId: variantId})
+        const subscriptions = await SubscriptionModel.find({store: storeId, productId: productId, variantId: variantId}).select({ phoneNumber: 1 })
 
         if(!subscriptions){
-            res.status(422).json({ message: 'subscriiption not found'})
+            res.status(422).json({ message: 'subscription not found'})
             return
         }
         res.status(200).json(subscriptions)

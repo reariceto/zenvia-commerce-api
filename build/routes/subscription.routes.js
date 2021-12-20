@@ -47,9 +47,9 @@ subscriptionRouter.get('/store/:storeId/product/:productId/variant/:variantId', 
     const productId = req.params.productId;
     const variantId = req.params.variantId;
     try {
-        const subscriptions = await Subscription_1.SubscriptionModel.find({ store: storeId, productId: productId, variantId: variantId });
+        const subscriptions = await Subscription_1.SubscriptionModel.find({ store: storeId, productId: productId, variantId: variantId }).select({ phoneNumber: 1 });
         if (!subscriptions) {
-            res.status(422).json({ message: 'subscriiption not found' });
+            res.status(422).json({ message: 'subscription not found' });
             return;
         }
         res.status(200).json(subscriptions);

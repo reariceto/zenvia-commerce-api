@@ -14,7 +14,20 @@ async function start() {
     try {
         const app = (0, express_1.default)();
         app.use(express_1.default.json());
-        app.use((0, cors_1.default)());
+        const options = {
+            allowedHeaders: [
+                'Origin',
+                'X-Requested-With',
+                'Content-Type',
+                'Accept',
+                'X-Access-Token',
+            ],
+            credentials: true,
+            methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+            origin: '*',
+            preflightContinue: false,
+        };
+        app.use((0, cors_1.default)(options));
         app.use(index_1.default);
         app.listen(process.env.PORT || 3000, () => {
             console.log(`App running on port ${process.env.PORT}`);
