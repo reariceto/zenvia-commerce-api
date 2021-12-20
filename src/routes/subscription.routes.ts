@@ -52,9 +52,16 @@ subscriptionRouter.get('/store/:storeId/product/:productId/variant/:variantId/ph
     const storeId = req.params.storeId
     const productId = req.params.productId
     const variantId = req.params.variantId
+    
 
     try{
-        const subscriptions = await SubscriptionModel.find({store: storeId, productId: productId, variantId: variantId}).select({ '_id': 0, phoneNumber: 1 })
+        const store = await StoreModel.findOne({storeId: storeId})
+
+        if(!store){
+            throw new Error("Invalid store")
+        }
+
+        const subscriptions = await SubscriptionModel.find({store: store._id, productId: productId, variantId: variantId}).select({ '_id': 0, phoneNumber: 1 })
 
         if(!subscriptions){
             res.status(422).json({ message: 'subscription not found'})
