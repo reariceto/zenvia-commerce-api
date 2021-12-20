@@ -3,6 +3,7 @@ config()
 
 import { connect } from './mongo'
 import express from 'express'
+import cors from 'cors'
 import indexRoutes from './routes/index'
 
 
@@ -13,6 +14,7 @@ async function start() {
         const app = express();
 
         app.use(express.json())
+        app.use(cors())
         app.use(indexRoutes);
 
         app.listen(process.env.PORT || 3000, () => {
