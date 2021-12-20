@@ -1,26 +1,33 @@
 import {Router} from 'express'
 import {SubscriptionModel} from '../models/Subscription'
+import {StoreModel} from '../models/Store'
 
 const subscriptionRouter = Router()
 
 //POST
-subscriptionRouter.post('/store/:storeId/product/:productId/variantId/:variantId', async (req, res) =>{
+subscriptionRouter.post('/store/:storeId/product/:productId/variant/:variantId', async (req, res) =>{
     const storeId = req.params.storeId
     const productId = req.params.productId
     const variantId = req.params.variantId
     const {medium, phoneNumber, language} = req.body
-    
-    const subscription = {
-        phoneNumber,
-        productId,
-        store: storeId,
-        type: 'product:restock',
-        variantId,
-        language,
-        medium,
-    }
 
     try{
+
+        const store = await StoreModel.findOne({storeId: storeId})
+
+        if(!store){
+            throw new Error("Invalid store")
+        }
+
+        const subscription = {
+            phoneNumber,
+            productId,
+            store: store._id,
+            type: 'product:restock',
+            variantId,
+            language,
+            medium,
+        }
 
         await SubscriptionModel.create(subscription)
         res.status(201).json({ message: 'subscription inserted.'})
@@ -41,7 +48,7 @@ subscriptionRouter.get('/', async (req, res) => {
 })
 
 //GET by storeId/productId/variantId
-subscriptionRouter.get('/store/:storeId/product/:productId/variantId/:variantId', async (req, res) => {
+subscriptionRouter.get('/store/:storeId/product/:productId/variant/:variantId', async (req, res) => {
     const storeId = req.params.storeId
     const productId = req.params.productId
     const variantId = req.params.variantId
