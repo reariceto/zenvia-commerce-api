@@ -9,7 +9,7 @@ subscriptionRouter.post('/store/:storeId/product/:productId/variant/:variantId',
     const storeId = req.params.storeId
     const productId = req.params.productId
     const variantId = req.params.variantId
-    const {medium, phoneNumber, language} = req.body
+    const {medium, phoneNumber, language, productName, productUrl} = req.body
 
     try{
 
@@ -25,6 +25,8 @@ subscriptionRouter.post('/store/:storeId/product/:productId/variant/:variantId',
             store: store._id,
             type: 'product:restock',
             variantId,
+            productName,
+            productUrl,
             language,
             medium,
         }
