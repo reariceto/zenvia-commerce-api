@@ -1,11 +1,13 @@
 import mongoose from 'mongoose'
 
-interface Subscription {
+export interface Subscription {
   store: mongoose.Types.ObjectId
-  type: 'product:restock' | 'product:launch' | 'new`sletter'
+  type: 'product:restock' | 'product:launch' | 'newsletter'
   medium: 'whatsapp' | 'sms'
   productId?: string
   variantId?: string
+  productName?: string
+  productUrl?: string
   phoneNumber: string
   language: string
   active: boolean
@@ -14,7 +16,7 @@ interface Subscription {
   updatedAt: Date
 }
 
-const schema = new mongoose.Schema<Subscription>(
+const schema = new mongoose.Schema(
   {
     store: { type: 'ObjectId', ref: 'Store' },
     type: {
@@ -31,6 +33,12 @@ const schema = new mongoose.Schema<Subscription>(
       type: String,
     },
     variantId: {
+      type: String,
+    },
+    productName: {
+      type: String,
+    },
+    productUrl: {
       type: String,
     },
     phoneNumber: {

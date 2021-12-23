@@ -23,6 +23,12 @@ const schema = new mongoose_1.default.Schema({
     variantId: {
         type: String,
     },
+    productName: {
+        type: String,
+    },
+    productUrl: {
+        type: String,
+    },
     phoneNumber: {
         type: String,
         required: true,
