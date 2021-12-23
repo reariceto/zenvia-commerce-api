@@ -1,28 +1,48 @@
 import mongoose from 'mongoose'
 
-export interface Store {
-  connectedAt: Date
-  platform: String
+export enum StorePlatform {
+  Nuvemshop = 'nuvemshop',
+  WooCommerce = 'woocommerce',
+}
+
+interface BaseStore {
   storeId: string
+  name: string
+  connectedAt: Date
   accessToken: string
   language: string
   adminUrl: string
-  metadata: Object
   updatedAt: Date
 }
 
+interface NuvemshopStore extends BaseStore {
+  platform: StorePlatform.Nuvemshop
+  metadata: null //TODO
+}
+
+interface WooCommerceStore extends BaseStore {
+  platform: StorePlatform.WooCommerce
+  metadata: null // TODO
+}
+
+type Store = NuvemshopStore | WooCommerceStore
+
 const schema = new mongoose.Schema<Store>(
   {
+    storeId: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
     connectedAt: {
       type: Date,
       default: () => new Date(),
       required: true,
     },
     platform: {
-      type: String,
-      required: true,
-    },
-    storeId: {
       type: String,
       required: true,
     },
