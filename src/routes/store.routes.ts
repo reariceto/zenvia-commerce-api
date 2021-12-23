@@ -21,6 +21,7 @@ storeRouter.post('/', async (req, res) =>{
             accessToken: '0',
             language,
             adminUrl,
+            metadata: null
         }
         await StoreModel.create(newStore)
         res.status(200).json({message: 'Store created'})
